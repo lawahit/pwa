@@ -47,11 +47,11 @@ O copia el contenido de `backend/db/schema.sql` y ejecútalo en el **SQL Editor*
 3. Configuración:
    - **Name**: `pwa-contenedores`
    - **Region**: Oregon (US West)
-   - **Branch**: `main`
+   - **Branch**: `main` (o `master` si ese es tu branch principal)
    - **Root Directory**: (dejar vacío)
    - **Runtime**: Node
-   - **Build Command**: `cd backend && npm install`
-   - **Start Command**: `cd backend && node server.js`
+   - **Build Command**: `npm install --prefix backend`
+   - **Start Command**: `node backend/server.js`
    - **Plan**: Free
 
 ### 4. Configurar Variables de Entorno
