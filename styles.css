@@ -1,0 +1,514 @@
+/*Estilos generales*/
+* {
+    margin: 0px;
+    padding: 0px;
+    text-decoration: none;
+    font-family: 'Open Sans', Verdana;
+}
+
+html, body {
+    overflow-x: hidden;
+}
+
+body {
+    background: white;
+}
+
+.clearfix {
+    clear: both;
+    float: none;
+}
+
+.container {
+    width: 85%;
+    margin: 0px auto;
+}
+
+/*Cabecera*/
+#main-header {
+    background: white;
+    height: 100px;
+    line-height: 85px;
+    /*border-bottom: 1px solid black;*/
+}
+
+#logo {
+    width: 63%;
+    float: left;
+}
+
+#logo h1 {
+    font-weight: bold;
+    font-size: 25px;
+    color: #1a109d;
+}
+
+#menu {
+    width: 380px;
+    float: left;
+}
+
+#menu ul li {
+    list-style: none;
+    float: left;
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+#menu ul li a {
+    color: black;
+}
+
+#menu ul li a:hover {
+    color: #4121e47d;
+}
+
+/*Slider*/
+#slider {
+    height: 300px;
+    background: #332bc7;
+}
+
+#slider h2 {
+    font-size: 40px;
+    text-align: center;
+    color: white;
+    line-height: 290px;
+    text-shadow: 0px 0px 6px black;
+}
+
+/*Maquetado de servicios*/
+.subheader {
+    font-size: 34px;
+    color: #333;
+    text-align: center;
+    margin-top: 40px;
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(251, 49, 78, 0.3);
+}
+
+.service, .video {
+    width: 33%;
+    text-align: center;
+    float: left;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.service img {
+    height: 48px;
+    margin-bottom: 20px;
+}
+
+.service h3 {
+    margin-bottom: 10px;
+}
+
+.service p, .video p {
+    color: #444;
+    text-align: justify;
+    display: block;
+    width: 85%;
+    margin: 0px auto;
+}
+
+/*Sección de videos*/
+.video iframe {
+    width: 80%;
+    height: 170px;
+}
+
+/*FOOTER*/
+#footer {
+    background: #333;
+    padding-top: 5px;
+    padding-bottom: 40px;
+    margin-top: 30px;
+    text-align: center;
+    color: white;
+}
+
+#footer .subheader {
+    color: white;
+}
+
+#networks {
+    display: block;
+    width: 216px;
+    margin: 0px auto;
+    list-style: none;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+#networks li {
+    float: left;
+    margin-left: 20px;
+    margin-right: 20px;
+    transition: all 300ms;
+}
+
+#networks li:hover {
+    opacity: 0.8;
+    transform: scale(1.1, 1.1);
+}
+
+/* Media Queries (Opcionales / Comentadas en las imágenes) */
+
+@media all and (max-width: 1000px) {
+#main-header {
+    background: black;
+}
+}
+
+
+@media (max-width: 1225px) {
+    .container {
+        width: 95%;
+    }
+}
+
+@media (max-width: 1085px) {
+    #main-header {
+        height: 70px;
+        line-height: 65px;
+    }
+}
+
+
+/* Media Queries (Extraídas en las imágenes) */
+
+@media (max-width: 999px) {
+    #logo {
+        width: 227px;
+        float: none;
+        margin: 0px auto;
+    }
+
+    #menu {
+        float: none;
+        margin: 0px auto;
+    }
+
+    /* 2. Estilo para el slider de la marquesina*/
+    #slider {
+        overflow: hidden;
+        height: 150px;
+    }
+
+    #slider h2 {
+        font-size: 30px;
+        line-height: 30px;
+        margin-top: 60px;
+    }
+}
+
+/*Media Queries para cambiar el txto de los servicios en un tamaño 780px*/
+@media (max-width: 700px) {
+    .service, .video {
+        width: 70%;
+        float: none;
+        margin: 0 px auto;
+        margin-top: 20px;
+        margin-bottom: 40px;
+    }
+
+    .service {
+        width: 50%;
+        text-align: justify;
+    }
+
+    .service img {
+        margin-bottom: 10px;
+    }
+
+    .service p, .video p {
+        margin-top: 20px;
+    }
+
+    .video iframe {
+        width: 80%;
+        height: 230px;
+    }
+}
+
+/* 3. texto de la marquesina tamaño 460*/
+@media (max-width: 460px){
+    #slider h2 {
+        font-size: 25px;
+        line-height: 30px;
+        margin-top: 60px;
+    }
+}
+
+@media (max-width: 377px) {
+    #menu {
+        width: 100%;
+        text-align: center;
+    }
+
+    #menu ul li {
+        margin-left: 4%;
+        margin-right: 4%;
+    }
+
+    /* 4. Texto de marquesina con tamaño 377*/
+    #slider h2 {
+        margin-top: 50px;
+    }
+
+    .service, .video {
+        width: 90%;
+    }
+
+    .video iframe {
+        width: 80%;
+        height: 150px;
+    }
+}
+
+@media (max-width: 345px) {
+    #main-header {
+        height: auto;
+    }
+
+    #menu ul li {
+        float: none;
+    }
+}
+/
+*Sección de Recursos Admin*/
+#recursos-admin {
+    padding-top: 20px;
+    padding-bottom: 40px;
+    background: #f9f9f9;
+}
+
+#recursos-controles {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    transition: all 300ms;
+}
+
+.btn-primary {
+    background: #332bc7;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #4121e4;
+}
+
+.btn-success {
+    background: #28a745;
+    color: white;
+}
+
+.btn-success:hover {
+    background: #218838;
+}
+
+.btn-secondary {
+    background: #6c757d;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background: #5a6268;
+}
+
+.btn-danger {
+    background: #dc3545;
+    color: white;
+    padding: 5px 10px;
+    font-size: 12px;
+}
+
+.btn-danger:hover {
+    background: #c82333;
+}
+
+.btn-edit {
+    background: #ffc107;
+    color: #333;
+    padding: 5px 10px;
+    font-size: 12px;
+    margin-right: 5px;
+}
+
+.btn-edit:hover {
+    background: #e0a800;
+}
+
+#formulario-recurso {
+    background: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.formulario-oculto {
+    display: none;
+}
+
+#formulario-recurso h3 {
+    margin-bottom: 20px;
+    color: #333;
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #333;
+    font-weight: bold;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: #332bc7;
+}
+
+.form-buttons {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.form-buttons .btn {
+    margin: 0 5px;
+}
+
+#mensaje-estado {
+    padding: 15px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.mensaje-oculto {
+    display: none;
+}
+
+.mensaje-exito {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.mensaje-error {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+#lista-recursos {
+    margin-top: 30px;
+}
+
+.cargando {
+    text-align: center;
+    color: #666;
+    font-style: italic;
+}
+
+.recurso-card {
+    background: white;
+    padding: 20px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: all 300ms;
+}
+
+.recurso-card:hover {
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+.recurso-card h3 {
+    color: #332bc7;
+    margin-bottom: 10px;
+}
+
+.recurso-card .categoria {
+    display: inline-block;
+    background: #332bc7;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    margin-bottom: 10px;
+}
+
+.recurso-card p {
+    color: #444;
+    margin-bottom: 10px;
+    text-align: left;
+}
+
+.recurso-card .url {
+    color: #332bc7;
+    word-break: break-all;
+    margin-bottom: 15px;
+}
+
+.recurso-card .fecha {
+    color: #999;
+    font-size: 12px;
+    margin-bottom: 15px;
+}
+
+.recurso-card .acciones {
+    text-align: right;
+}
+
+@media (max-width: 700px) {
+    #formulario-recurso {
+        padding: 20px;
+    }
+
+    .recurso-card {
+        padding: 15px;
+    }
+
+    .recurso-card .acciones {
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    .btn-edit, .btn-danger {
+        display: inline-block;
+        margin: 5px;
+    }
+}

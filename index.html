@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+    <!--viewport-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 ,maxinum-scale=1.0, user-scalable=no" />
+    <!--icono de la pestana del favicon-->
+    <link rel="shortcut icon" type="image/png" href="img/1.png" />
+
+    <!--color de la app-->
+    <meta name="theme-color" content="#FB313E" />
+
+     <!--OPTIMIZACION DEL MOVIL-->
+     <meta name="MobileOptimized" content="width" />
+    <meta name="HandheldFriendly" content="true" />
+
+    <!--META ETIQUETAS PARA APPLE-->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta rel="apple-touch-icon" href="img/favicon.png" />
+    <link rel="apple-touch-startup-image" href="img/favicon.png" />
+
+    <!--configuracion general de la pwa-->
+    <link rel="manifest" href="manifest.json" />
+
+    <title>LUIS ANTONIO DE JESUS ANGLES MUTHE</title>
+    <link rel="stylesheet" type="text/css" href="styles.css"> 
+    <!--Fuentes de google fonts-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="notifications.js"></script>
+    <script src="admin.js"></script>
+    <script src="main.js"></script>
+
+
+</head>
+<body>
+    <header id="main-header">
+        <div class="container">
+            <div id="logo">
+                <h1>LUIS ANTONIO DE JESUS ANGLES MUTHE</h1>
+            </div>
+            <div id="menu">
+                <ul>
+                    <li>
+                        <a href="#main-header">Inicio</a>
+                    </li>
+                    <li>
+                        <a href="#services">Servicios</a>
+                    </li>
+                    <li>
+                        <a href="#videos">Videos</a>
+                    </li>
+                    <li>
+                        <a href="#recursos-admin">Recursos</a>
+                    </li>
+                    <li>
+                        <a href="#footer">Contacto</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </header>
+    <div class="clearfix"></div>
+    <div id="slider">
+        <div class="container">
+            <h2>CONTENEDORES</h2>
+        </div>
+    </div>
+    <div id="services">
+        <div class="container">
+            <h2 class="subheader">Servicios</h2>
+            <div class="service">
+                <img src="https://profile.es/wp-content/media/image.png" alt="Icono de código" />
+                <h3>DOKER</h3>
+                <p>
+                    Un contenedor es una unidad estándar de software que empaqueta el código y todas sus dependencias para que la aplicación se ejecute de forma rápida y fiable entre entornos informáticos.
+              
+                </p>
+            </div>
+            <div class="service">
+                <img src="https://www.spainclouds.com/wp-content/uploads/2025/04/6054fec86ef332ff3651bc92_1581514013775.png" alt="Icono de móvil" />
+                <h3>KUBERNETES</h3>
+                <p>
+                    
+                    Kubernetes (a menudo abreviado como K8s) es un sistema de orquestación de contenedores de código abierto para automatizar la implementación, el escalado y la gestión de aplicaciones en contenedores.
+                </p>
+            </div>
+            <div class="service">
+                <img src="https://media2.dev.to/dynamic/image/width=1000,height=420,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F6ey8mizke6etkvdathio.png" alt="Icono de nube" />
+                <h3>DOKER COMPOSER</h3>
+                <p>
+                    Docker Compose es una herramienta para definir y ejecutar aplicaciones Docker de múltiples contenedores. Con Compose, usas un archivo YAML para configurar los servicios de tu aplicación. Luego, con un solo comando, creas e inicias todos los servicios desde tu configuración.
+                </p>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div id="videos">
+        <div class="container">
+            <h2 class="subheader">Videos</h2>
+            <div class="video">
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/OEvHEeDpg_o?si=eXDEfa3azGllwRYa" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                <p>
+                   Docker es una plataforma para crear y ejecutar aplicaciones en contenedores, que son unidades estandarizadas que empaquetan el código de una aplicación con todas sus dependencias (bibliotecas, herramientas, etc.) para asegurar que funcione de forma consistente en cualquier entorno, ya sea local o en la nube. 
+            </div>
+            <div class="video">
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/oTf0KxK1QNo?si=3EvkG7O4mWBClHCv" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                   Kubernetes es una plataforma de código abierto para la orquestación de contenedores.​ Permite desplegar y automatizar la gestión de sistemas distribuidos de manera que sean capaces de escalar y auto-repararse. 
+                </p>
+            </div>
+        </div>
+        <div class="video">
+           <iframe width="560" height="315" src="https://www.youtube.com/embed/YOiZy4SWs-o?si=sEgOlDf4qSXcI1IF" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                  <p> Docker Compose es una herramienta de Docker que simplifica la definición, configuración y ejecución de aplicaciones que utilizan múltiples contenedores, como una aplicación web con un frontend, un backend y una base de datos. Mediante un archivo de configuración YAML (generalmente docker-compose.yml)
+                </p>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div id="recursos-admin">
+        <div class="container">
+            <h2 class="subheader">Recursos Educativos</h2>
+            
+            <div id="recursos-controles">
+                <button id="btn-nuevo-recurso" class="btn btn-primary">Nuevo Recurso</button>
+            </div>
+
+            <div id="formulario-recurso" class="formulario-oculto">
+                <h3 id="formulario-titulo">Crear Nuevo Recurso</h3>
+                <form id="form-recurso">
+                    <input type="hidden" id="recurso-id" />
+                    
+                    <div class="form-group">
+                        <label for="recurso-titulo">Título:</label>
+                        <input type="text" id="recurso-titulo" name="titulo" required maxlength="200" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="recurso-descripcion">Descripción:</label>
+                        <textarea id="recurso-descripcion" name="descripcion" required maxlength="1000" rows="4"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="recurso-categoria">Categoría:</label>
+                        <select id="recurso-categoria" name="categoria" required>
+                            <option value="">Selecciona una categoría</option>
+                            <option value="Docker">Docker</option>
+                            <option value="Kubernetes">Kubernetes</option>
+                            <option value="Docker Compose">Docker Compose</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="recurso-url">URL:</label>
+                        <input type="url" id="recurso-url" name="url" required maxlength="500" />
+                    </div>
+
+                    <div class="form-buttons">
+                        <button type="submit" class="btn btn-success">Guardar</button>
+                        <button type="button" id="btn-cancelar" class="btn btn-secondary">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+
+            <div id="mensaje-estado" class="mensaje-oculto"></div>
+
+            <div id="lista-recursos">
+                <p class="cargando">Cargando recursos...</p>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <footer id="footer">
+        <div class="container">
+            <h2 class="subheader">Contacto</h2>
+            <p>Enviame un mensaje en mis redes sociales :)</p>
+            <ul id="networks">
+                <li>
+                    <a href="https://x.com/luis_muthe" target="_blank" rel="noopener noreferrer" aria-label="Abrir Twitter en una nueva pestaña">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/twitter/twitter-original.svg" alt="Twitter Logo" width="32" height="32" />
+                    </a>
+                </li>
+                <li>
+                    <a href="https://www.facebook.com/?locale=es_LA" target="_blank" rel="noopener noreferrer" aria-label="Abrir Facebook en una nueva pestaña">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/facebook/facebook-original.svg" alt="Facebook Logo" width="32" height="32" />
+                    </a>
+                </li>
+                <li>
+                    <a href="https://www.instagram.com/muthesin/" target="_blank" rel="noopener noreferrer" aria-label="Abrir Instagram en una nueva pestaña">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram Logo" width="32" height="32" />
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="clearfix"></div>
+    </footer>
+</body>
+</html>

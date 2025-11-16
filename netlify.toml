@@ -1,0 +1,40 @@
+# Configuración de Netlify
+[build]
+  # Comando para construir el proyecto (si es necesario)
+  command = "npm install"
+  # Directorio que se publicará
+  publish = "."
+  # Directorio de funciones serverless
+  functions = "netlify/functions"
+
+# Configuración de funciones
+[functions]
+  # Directorio de las funciones
+  directory = "netlify/functions"
+  # Node version
+  node_bundler = "esbuild"
+
+# Redirecciones para SPA (Single Page Application)
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Variables de entorno (configurar en Netlify Dashboard)
+# SUPABASE_URL
+# SUPABASE_ANON_KEY
+# SUPABASE_SERVICE_KEY
+# DB_HOST
+# DB_PORT
+# DB_USER
+# DB_PASSWORD
+# DB_NAME
+# DB_SSL
+# PUBLIC_VAPID_KEY
+# PRIVATE_VAPID_KEY
+# VAPID_EMAIL

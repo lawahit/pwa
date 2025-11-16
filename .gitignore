@@ -1,0 +1,30 @@
+# Dependencias
+node_modules/
+backend/node_modules/
+
+# Variables de entorno (¡IMPORTANTE! No subir a GitHub)
+.env
+backend/.env
+
+# Logs
+*.log
+npm-debug.log*
+logs/
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Build
+dist/
+build/
+
+# Temporal
+*.tmp
+.cache/
