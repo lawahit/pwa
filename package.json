@@ -1,25 +1,19 @@
 {
-  "name": "backend",
+  "name": "pwa-contenedores",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "PWA de recursos de contenedores con backend Express y PostgreSQL",
+  "main": "backend/server.js",
   "scripts": {
-    "start": "node server.js",
-    "dev": "node server.js",
-    "init-db": "node db/init.js",
+    "start": "cd backend && node server.js",
+    "dev": "cd backend && node server.js",
+    "init-db": "cd backend && node db/init.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
+  "keywords": ["pwa", "docker", "kubernetes", "contenedores"],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
-  "dependencies": {
-    "@supabase/supabase-js": "^2.39.0",
-    "cors": "^2.8.5",
-    "dotenv": "^17.2.3",
-    "express": "^5.1.0",
-    "pg": "^8.11.3",
-    "web-push": "^3.6.7"
+  "engines": {
+    "node": ">=18.0.0"
   }
 }
 

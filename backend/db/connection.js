@@ -1,8 +1,7 @@
 const { Pool } = require('pg');
-const { createClient } = require('@supabase/supabase-js');
 require('dotenv').config();
 
-// Crear pool de conexiones PostgreSQL
+// Crear pool de conexiones PostgreSQL (Render Database)
 const pool = new Pool({
   host: process.env.DB_HOST,
   port: process.env.DB_PORT || 5432,
@@ -14,12 +13,6 @@ const pool = new Pool({
   idleTimeoutMillis: 30000,
   connectionTimeoutMillis: 2000,
 });
-
-// Cliente de Supabase (opcional, para usar funciones adicionales de Supabase)
-const supabase = createClient(
-  process.env.SUPABASE_URL || '',
-  process.env.SUPABASE_ANON_KEY || ''
-);
 
 // Función para verificar la conexión
 async function verificarConexion() {
@@ -34,4 +27,4 @@ async function verificarConexion() {
   }
 }
 
-module.exports = { pool, supabase, verificarConexion };
+module.exports = { pool, verificarConexion };

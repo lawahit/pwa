@@ -5,6 +5,9 @@ backend/node_modules/
 # Variables de entorno (¡IMPORTANTE! No subir a GitHub)
 .env
 backend/.env
+# Permitir archivos .example
+!.env.render.example
+!backend/.env.example
 
 # Logs
 *.log
@@ -28,3 +31,7 @@ build/
 # Temporal
 *.tmp
 .cache/
+
+# Netlify (ya no se usa)
+netlify/
+.netlify/

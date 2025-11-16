@@ -1,5 +1,5 @@
 /**
- * Script de inicialización de base de datos PostgreSQL/Supabase
+ * Script de inicialización de base de datos PostgreSQL
  * Ejecuta el schema.sql y opcionalmente agrega datos de ejemplo
  */
 
@@ -12,7 +12,7 @@ async function inicializarBaseDatos() {
   let pool;
   
   try {
-    console.log('🔄 Conectando a PostgreSQL/Supabase...');
+    console.log('🔄 Conectando a PostgreSQL...');
     
     // Crear pool de conexiones
     pool = new Pool({
@@ -102,7 +102,7 @@ async function inicializarBaseDatos() {
     if (error.code === '28P01') {
       console.error('\n💡 Verifica las credenciales de PostgreSQL en el archivo .env');
     } else if (error.code === 'ECONNREFUSED') {
-      console.error('\n💡 Asegúrate de que PostgreSQL/Supabase esté accesible');
+      console.error('\n💡 Asegúrate de que PostgreSQL esté accesible');
     } else if (error.code === '3D000') {
       console.error('\n💡 La base de datos especificada no existe');
     }
