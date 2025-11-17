@@ -1,5 +1,5 @@
 services:
-  # Web Service - Backend + Frontend
+  # Web Service
   - type: web
     name: pwa-contenedores
     env: node
@@ -8,12 +8,8 @@ services:
     buildCommand: npm install --prefix backend
     startCommand: node backend/server.js
     envVars:
-      # Server Configuration
-      - key: PORT
-        value: 10000
-      
-      # PostgreSQL Database Configuration (Render Database)
-      # Configura estos valores desde tu Render Database
+      - key: NODE_ENV
+        value: production
       - key: DB_HOST
         sync: false
       - key: DB_PORT
@@ -26,15 +22,17 @@ services:
         sync: false
       - key: DB_SSL
         value: true
-      
-      # VAPID Keys for Push Notifications
       - key: PUBLIC_VAPID_KEY
         sync: false
       - key: PRIVATE_VAPID_KEY
         sync: false
       - key: VAPID_EMAIL
         sync: false
-      
-      # Node Environment
-      - key: NODE_ENV
-        value: production
+
+databases:
+  # PostgreSQL Database
+  - name: pwa-contenedores-db
+    databaseName: pwa_5x3k
+    user: pwa_5x3k_user
+    region: oregon
+    plan: free

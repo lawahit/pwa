@@ -4,9 +4,10 @@
   "description": "PWA de recursos de contenedores con backend Express y PostgreSQL",
   "main": "backend/server.js",
   "scripts": {
-    "start": "cd backend && node server.js",
-    "dev": "cd backend && node server.js",
-    "init-db": "cd backend && node db/init.js",
+    "start": "node backend/server.js",
+    "dev": "node backend/server.js",
+    "build": "npm install --prefix backend",
+    "init-db": "node backend/db/init.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": ["pwa", "docker", "kubernetes", "contenedores"],

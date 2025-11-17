@@ -1,6 +1,9 @@
 // admin.js - Lógica CRUD para gestión de recursos educativos
 
-const API_URL = 'http://localhost:3000/api';
+// Detectar si estamos en producción o desarrollo
+const API_URL = window.location.hostname === 'localhost' 
+    ? 'http://localhost:3000/api' 
+    : '/api';
 
 // Estado de la aplicación
 let modoEdicion = false;
