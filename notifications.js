@@ -1,5 +1,5 @@
 // Clave pública VAPID del servidor
-const PUBLIC_VAPID_KEY = 'BJyT6QMQmcNuqz6Yuh4FnwkUJcx4Qdt_ZiWm94hSXXHZNjcXALagmZ50mdJUpyPXcETQD_xnO-5lP_wUFsU6vhg';
+const PUBLIC_VAPID_KEY = 'BGXQ6RzQspcnuaRZphHbz9PU8dgK5ZpceuIBK-_TUmnCUDQl1NAIGvBLNr_fveZUlNVC_bkFVPz7FtiHNSESkYk';
 
 /**
  * Convierte una clave VAPID en formato base64 a Uint8Array
@@ -87,7 +87,12 @@ async function suscribirseAPush() {
  */
 async function enviarSuscripcionAlServidor(subscription) {
   try {
-    const response = await fetch('http://localhost:3000/api/suscripciones', {
+    // Detectar si estamos en producción o desarrollo
+    const API_URL = window.location.hostname === 'localhost' 
+      ? 'http://localhost:3000/api' 
+      : '/api';
+    
+    const response = await fetch(`${API_URL}/suscripciones`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
