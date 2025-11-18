@@ -245,6 +245,7 @@ async function sincronizarColaOffline() {
 
 		let sincronizadas = 0;
 		let fallidas = 0;
+		let tipoOperaciones = { creados: 0, editados: 0, eliminados: 0 };
 
 		for (const peticion of peticiones) {
 			try {
@@ -265,8 +266,19 @@ async function sincronizarColaOffline() {
 						txDelete.onerror = () => reject(txDelete.error);
 					});
 					
+					// Actualizar caché con la respuesta
+					if (peticion.method === 'POST' || peticion.method === 'PUT') {
+						const cache = await caches.open(CACHE_NAME);
+						cache.put(peticion.url, response.clone());
+					}
+					
+					// Contar tipo de operación
+					if (peticion.method === 'POST') tipoOperaciones.creados++;
+					if (peticion.method === 'PUT') tipoOperaciones.editados++;
+					if (peticion.method === 'DELETE') tipoOperaciones.eliminados++;
+					
 					sincronizadas++;
-					console.log('Petición sincronizada:', peticion.url);
+					console.log('Petición sincronizada:', peticion.method, peticion.url);
 				} else {
 					fallidas++;
 					console.log('Petición falló:', peticion.url, response.status);
@@ -277,13 +289,38 @@ async function sincronizarColaOffline() {
 			}
 		}
 
-		// Mostrar notificación de sincronización
+		// Actualizar caché de la lista de recursos
+		try {
+			const apiUrl = self.location.origin + '/api/recursos';
+			const listaResponse = await fetch(apiUrl);
+			if (listaResponse.ok) {
+				const cache = await caches.open(CACHE_NAME);
+				cache.put(apiUrl, listaResponse);
+				console.log('Caché de lista de recursos actualizada');
+			}
+		} catch (error) {
+			console.error('Error al actualizar caché de lista:', error);
+		}
+
+		// Mostrar notificación de sincronización detallada
 		if (sincronizadas > 0) {
-			await self.registration.showNotification('Sincronización completada', {
-				body: `${sincronizadas} recurso(s) sincronizado(s) con el servidor`,
+			let mensaje = `✅ ${sincronizadas} cambio(s) sincronizado(s):\n`;
+			if (tipoOperaciones.creados > 0) mensaje += `• ${tipoOperaciones.creados} creado(s)\n`;
+			if (tipoOperaciones.editados > 0) mensaje += `• ${tipoOperaciones.editados} editado(s)\n`;
+			if (tipoOperaciones.eliminados > 0) mensaje += `• ${tipoOperaciones.eliminados} eliminado(s)`;
+			
+			await self.registration.showNotification('✅ Sincronización completada', {
+				body: mensaje,
 				icon: './img/favicon-192.png',
 				badge: './img/favicon-96.png',
-				tag: 'sync-complete'
+				tag: 'sync-complete',
+				requireInteraction: false
+			});
+			
+			// Notificar a todos los clientes para que recarguen
+			const clients = await self.clients.matchAll();
+			clients.forEach(client => {
+				client.postMessage({ type: 'SYNC_COMPLETE', sincronizadas, tipoOperaciones });
 			});
 		}
 
@@ -306,6 +343,17 @@ self.addEventListener('sync', e => {
 self.addEventListener('message', e => {
 	if (e.data && e.data.type === 'ONLINE') {
 		console.log('Conexión restaurada, sincronizando...');
+		
+		// Mostrar notificación de que volvió la conexión
+		self.registration.showNotification('🟢 Conexión restaurada', {
+			body: 'Sincronizando tus cambios con el servidor...',
+			icon: './img/favicon-192.png',
+			badge: './img/favicon-96.png',
+			tag: 'connection-restored',
+			requireInteraction: false
+		});
+		
+		// Sincronizar
 		sincronizarColaOffline();
 	}
 	

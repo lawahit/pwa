@@ -18,7 +18,40 @@ document.addEventListener('DOMContentLoaded', function() {
     inicializarEventos();
     inicializarDeteccionConexion();
     mostrarEstadoConexion();
+    inicializarListenerServiceWorker();
 });
+
+// Escuchar mensajes del Service Worker
+function inicializarListenerServiceWorker() {
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.addEventListener('message', event => {
+            if (event.data && event.data.type === 'SYNC_COMPLETE') {
+                console.log('Sincronización completada:', event.data);
+                
+                // Mostrar mensaje de éxito
+                const { sincronizadas, tipoOperaciones } = event.data;
+                let mensaje = `${sincronizadas} cambio(s) sincronizado(s) con el servidor`;
+                
+                if (tipoOperaciones) {
+                    const detalles = [];
+                    if (tipoOperaciones.creados > 0) detalles.push(`${tipoOperaciones.creados} creado(s)`);
+                    if (tipoOperaciones.editados > 0) detalles.push(`${tipoOperaciones.editados} editado(s)`);
+                    if (tipoOperaciones.eliminados > 0) detalles.push(`${tipoOperaciones.eliminados} eliminado(s)`);
+                    if (detalles.length > 0) {
+                        mensaje += `: ${detalles.join(', ')}`;
+                    }
+                }
+                
+                mostrarMensaje(mensaje, 'exito');
+                
+                // Recargar recursos
+                setTimeout(() => {
+                    cargarRecursos();
+                }, 1000);
+            }
+        });
+    }
+}
 
 // Inicializar event listeners
 function inicializarEventos() {
@@ -109,13 +142,28 @@ function mostrarFormularioCreacion() {
 // Editar recurso existente
 async function editarRecurso(id) {
     try {
-        const response = await fetch(`${API_URL}/recursos/${id}`);
+        let recurso;
         
-        if (!response.ok) {
-            throw new Error('Error al cargar el recurso');
+        // Intentar cargar desde el servidor
+        try {
+            const response = await fetch(`${API_URL}/recursos/${id}`);
+            
+            if (response.ok) {
+                recurso = await response.json();
+            } else {
+                throw new Error('No se pudo cargar desde el servidor');
+            }
+        } catch (fetchError) {
+            // Si no hay conexión, intentar cargar desde caché local
+            console.log('Sin conexión, buscando en caché local...');
+            recurso = await cargarRecursoDesdeCache(id);
+            
+            if (!recurso) {
+                throw new Error('No se pudo cargar el recurso. Sin conexión y sin datos en caché.');
+            }
+            
+            mostrarMensaje('Editando sin conexión - Los cambios se sincronizarán cuando vuelva la conexión', 'info');
         }
-        
-        const recurso = await response.json();
         
         modoEdicion = true;
         recursoEditandoId = id;
@@ -134,7 +182,30 @@ async function editarRecurso(id) {
         
     } catch (error) {
         console.error('Error:', error);
-        mostrarMensaje('Error al cargar el recurso para editar', 'error');
+        mostrarMensaje(error.message || 'Error al cargar el recurso para editar', 'error');
+    }
+}
+
+// Cargar recurso desde caché local
+async function cargarRecursoDesdeCache(id) {
+    try {
+        // Buscar en la caché del navegador
+        const cacheResponse = await caches.match(`${API_URL}/recursos/${id}`);
+        if (cacheResponse) {
+            return await cacheResponse.json();
+        }
+        
+        // Si no está en caché, buscar en la lista cacheada
+        const listaCacheResponse = await caches.match(`${API_URL}/recursos`);
+        if (listaCacheResponse) {
+            const recursos = await listaCacheResponse.json();
+            return recursos.find(r => r.id === id);
+        }
+        
+        return null;
+    } catch (error) {
+        console.error('Error al cargar desde caché:', error);
+        return null;
     }
 }
 
@@ -182,8 +253,12 @@ async function guardarRecurso(event) {
         
         // Si la respuesta indica que se guardó offline
         if (responseData.offline) {
-            mostrarMensaje('Recurso guardado localmente - Se sincronizará cuando vuelva la conexión', 'info');
-            mostrarNotificacionLocal('Recurso guardado sin conexión', 'Tu recurso se sincronizará automáticamente cuando vuelva la conexión');
+            const accion = modoEdicion ? 'editado' : 'creado';
+            mostrarMensaje(`Recurso ${accion} localmente - Se sincronizará cuando vuelva la conexión`, 'info');
+            mostrarNotificacionLocal(
+                `Recurso ${accion} sin conexión`, 
+                `"${datos.titulo}" se sincronizará automáticamente cuando vuelva la conexión`
+            );
         } else if (!response.ok) {
             throw new Error(responseData.error || 'Error al guardar el recurso');
         } else {
@@ -193,6 +268,8 @@ async function guardarRecurso(event) {
             // Mostrar notificación local después de 10 segundos
             if (!modoEdicion) {
                 mostrarNotificacionLocal('Nuevo recurso agregado', `${datos.titulo} - ${datos.descripcion}`);
+            } else {
+                mostrarNotificacionLocal('Recurso actualizado', `${datos.titulo} - Cambios guardados`);
             }
         }
         
