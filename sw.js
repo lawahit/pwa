@@ -185,12 +185,23 @@ async function guardarEnColaOffline(request) {
 	}
 
 	// Guardar en IndexedDB
-	const db = await abrirDB();
-	const tx = db.transaction('offline-queue', 'readwrite');
-	const store = tx.objectStore('offline-queue');
-	await store.add(requestData);
-	
-	console.log('Petición guardada en cola offline:', requestData);
+	try {
+		const db = await abrirDB();
+		const tx = db.transaction('offline-queue', 'readwrite');
+		const store = tx.objectStore('offline-queue');
+		store.add(requestData);
+		
+		// Esperar a que la transacción se complete
+		await new Promise((resolve, reject) => {
+			tx.oncomplete = () => {
+				console.log('Petición guardada en cola offline:', requestData);
+				resolve();
+			};
+			tx.onerror = () => reject(tx.error);
+		});
+	} catch (error) {
+		console.error('Error al guardar en cola offline:', error);
+	}
 }
 
 // Abrir IndexedDB para cola offline
@@ -214,9 +225,16 @@ function abrirDB() {
 async function sincronizarColaOffline() {
 	try {
 		const db = await abrirDB();
+		
+		// Leer peticiones pendientes
 		const tx = db.transaction('offline-queue', 'readonly');
 		const store = tx.objectStore('offline-queue');
-		const peticiones = await store.getAll();
+		
+		const peticiones = await new Promise((resolve, reject) => {
+			const request = store.getAll();
+			request.onsuccess = () => resolve(request.result);
+			request.onerror = () => reject(request.error);
+		});
 
 		if (peticiones.length === 0) {
 			console.log('No hay peticiones pendientes de sincronizar');
@@ -240,10 +258,18 @@ async function sincronizarColaOffline() {
 					// Eliminar de la cola
 					const txDelete = db.transaction('offline-queue', 'readwrite');
 					const storeDelete = txDelete.objectStore('offline-queue');
-					await storeDelete.delete(peticion.timestamp);
+					storeDelete.delete(peticion.timestamp);
+					
+					await new Promise((resolve, reject) => {
+						txDelete.oncomplete = resolve;
+						txDelete.onerror = () => reject(txDelete.error);
+					});
+					
 					sincronizadas++;
+					console.log('Petición sincronizada:', peticion.url);
 				} else {
 					fallidas++;
+					console.log('Petición falló:', peticion.url, response.status);
 				}
 			} catch (error) {
 				console.error('Error al sincronizar petición:', error);

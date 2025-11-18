@@ -325,32 +325,37 @@ function inicializarDeteccionConexion() {
 
 // Mostrar estado de conexión en la interfaz
 function mostrarEstadoConexion() {
-    // Crear indicador si no existe
-    let indicador = document.getElementById('indicador-conexion');
-    if (!indicador) {
-        indicador = document.createElement('div');
-        indicador.id = 'indicador-conexion';
-        indicador.style.cssText = `
-            position: fixed;
-            top: 10px;
-            right: 10px;
-            padding: 10px 20px;
-            border-radius: 5px;
-            font-weight: bold;
-            z-index: 10000;
-            transition: all 0.3s ease;
-        `;
-        document.body.appendChild(indicador);
+    // Buscar el contenedor en el slider
+    let container = document.getElementById('indicador-conexion-container');
+    if (!container) {
+        // Si no existe el contenedor en el slider, crearlo temporalmente
+        const slider = document.getElementById('slider');
+        if (slider) {
+            const sliderContainer = slider.querySelector('.container');
+            if (sliderContainer) {
+                container = document.createElement('div');
+                container.id = 'indicador-conexion-container';
+                sliderContainer.appendChild(container);
+            }
+        }
     }
     
-    if (estaOnline) {
-        indicador.textContent = '🟢 En línea';
-        indicador.style.backgroundColor = '#4CAF50';
-        indicador.style.color = 'white';
-    } else {
-        indicador.textContent = '🔴 Sin conexión';
-        indicador.style.backgroundColor = '#f44336';
-        indicador.style.color = 'white';
+    // Crear indicador si no existe
+    let indicador = document.getElementById('indicador-conexion');
+    if (!indicador && container) {
+        indicador = document.createElement('div');
+        indicador.id = 'indicador-conexion';
+        container.appendChild(indicador);
+    }
+    
+    if (indicador) {
+        if (estaOnline) {
+            indicador.textContent = '🟢 En línea';
+            indicador.className = 'conexion-online';
+        } else {
+            indicador.textContent = '🔴 Sin conexión';
+            indicador.className = 'conexion-offline';
+        }
     }
 }
 
