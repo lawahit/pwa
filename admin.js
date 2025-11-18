@@ -9,10 +9,15 @@ const API_URL = window.location.hostname === 'localhost'
 let modoEdicion = false;
 let recursoEditandoId = null;
 
+// Estado de conexión
+let estaOnline = navigator.onLine;
+
 // Inicializar cuando el DOM esté listo
 document.addEventListener('DOMContentLoaded', function() {
     cargarRecursos();
     inicializarEventos();
+    inicializarDeteccionConexion();
+    mostrarEstadoConexion();
 });
 
 // Inicializar event listeners
@@ -173,13 +178,23 @@ async function guardarRecurso(event) {
             });
         }
         
-        if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.error || 'Error al guardar el recurso');
-        }
+        const responseData = await response.json();
         
-        const mensaje = modoEdicion ? 'Recurso actualizado exitosamente' : 'Recurso creado exitosamente';
-        mostrarMensaje(mensaje, 'exito');
+        // Si la respuesta indica que se guardó offline
+        if (responseData.offline) {
+            mostrarMensaje('Recurso guardado localmente - Se sincronizará cuando vuelva la conexión', 'info');
+            mostrarNotificacionLocal('Recurso guardado sin conexión', 'Tu recurso se sincronizará automáticamente cuando vuelva la conexión');
+        } else if (!response.ok) {
+            throw new Error(responseData.error || 'Error al guardar el recurso');
+        } else {
+            const mensaje = modoEdicion ? 'Recurso actualizado exitosamente' : 'Recurso creado exitosamente';
+            mostrarMensaje(mensaje, 'exito');
+            
+            // Mostrar notificación local después de 10 segundos
+            if (!modoEdicion) {
+                mostrarNotificacionLocal('Nuevo recurso agregado', `${datos.titulo} - ${datos.descripcion}`);
+            }
+        }
         
         cancelarFormulario();
         cargarRecursos();
@@ -233,7 +248,16 @@ function mostrarMensaje(texto, tipo) {
     const mensajeDiv = document.getElementById('mensaje-estado');
     
     mensajeDiv.textContent = texto;
-    mensajeDiv.className = tipo === 'exito' ? 'mensaje-exito' : 'mensaje-error';
+    
+    // Determinar la clase según el tipo
+    if (tipo === 'exito') {
+        mensajeDiv.className = 'mensaje-exito';
+    } else if (tipo === 'info') {
+        mensajeDiv.className = 'mensaje-info';
+    } else {
+        mensajeDiv.className = 'mensaje-error';
+    }
+    
     mensajeDiv.classList.remove('mensaje-oculto');
     
     // Ocultar mensaje después de 5 segundos
@@ -252,4 +276,94 @@ function escapeHtml(text) {
         "'": '&#039;'
     };
     return text.replace(/[&<>"']/g, m => map[m]);
+}
+
+// Inicializar detección de conexión
+function inicializarDeteccionConexion() {
+    // Detectar cuando se pierde la conexión
+    window.addEventListener('offline', () => {
+        console.log('Conexión perdida');
+        estaOnline = false;
+        mostrarEstadoConexion();
+        
+        // Notificar al Service Worker
+        if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+            navigator.serviceWorker.controller.postMessage({ type: 'OFFLINE' });
+        }
+        
+        mostrarMensaje('Sin conexión - Los recursos se guardarán localmente', 'info');
+    });
+    
+    // Detectar cuando vuelve la conexión
+    window.addEventListener('online', () => {
+        console.log('Conexión restaurada');
+        estaOnline = true;
+        mostrarEstadoConexion();
+        
+        // Notificar al Service Worker para sincronizar
+        if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+            navigator.serviceWorker.controller.postMessage({ type: 'ONLINE' });
+        }
+        
+        // Registrar sincronización en segundo plano
+        if ('serviceWorker' in navigator && 'sync' in navigator.serviceWorker) {
+            navigator.serviceWorker.ready.then(registration => {
+                return registration.sync.register('sync-offline-queue');
+            }).catch(err => {
+                console.error('Error al registrar sync:', err);
+            });
+        }
+        
+        mostrarMensaje('Conexión restaurada - Sincronizando recursos...', 'exito');
+        
+        // Recargar recursos después de 2 segundos
+        setTimeout(() => {
+            cargarRecursos();
+        }, 2000);
+    });
+}
+
+// Mostrar estado de conexión en la interfaz
+function mostrarEstadoConexion() {
+    // Crear indicador si no existe
+    let indicador = document.getElementById('indicador-conexion');
+    if (!indicador) {
+        indicador = document.createElement('div');
+        indicador.id = 'indicador-conexion';
+        indicador.style.cssText = `
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: bold;
+            z-index: 10000;
+            transition: all 0.3s ease;
+        `;
+        document.body.appendChild(indicador);
+    }
+    
+    if (estaOnline) {
+        indicador.textContent = '🟢 En línea';
+        indicador.style.backgroundColor = '#4CAF50';
+        indicador.style.color = 'white';
+    } else {
+        indicador.textContent = '🔴 Sin conexión';
+        indicador.style.backgroundColor = '#f44336';
+        indicador.style.color = 'white';
+    }
+}
+
+// Mostrar notificación local (sin servidor)
+async function mostrarNotificacionLocal(titulo, mensaje) {
+    if ('Notification' in window && Notification.permission === 'granted') {
+        // Esperar 10 segundos antes de mostrar la notificación
+        setTimeout(() => {
+            new Notification(titulo, {
+                body: mensaje,
+                icon: './img/favicon-192.png',
+                badge: './img/favicon-96.png'
+            });
+        }, 10000);
+    }
 }
