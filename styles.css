@@ -29,11 +29,10 @@ body {
     background: black;
     min-height: 100px;
     padding: 10px 0;
-    /*border-bottom: 1px solid black;*/
 }
 
 #logo {
-    width: 63%;
+    width: 60%;
     float: left;
     padding: 10px 0;
 }
@@ -47,23 +46,40 @@ body {
 }
 
 #menu {
-    width: 380px;
-    float: left;
+    width: 40%;
+    float: right;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+#menu ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    align-items: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
 }
 
 #menu ul li {
     list-style: none;
-    float: left;
-    margin-left: 15px;
-    margin-right: 15px;
+    margin: 5px 8px;
 }
 
 #menu ul li a {
-    color: black;
+    color: white;
+    font-size: 14px;
+    padding: 8px 12px;
+    display: block;
+    border-radius: 4px;
+    transition: all 0.3s ease;
 }
 
 #menu ul li a:hover {
-    color: #4121e47d;
+    background: #332bc7;
+    color: white;
 }
 
 /*Slider*/
@@ -233,8 +249,12 @@ body {
 
 @media (max-width: 1085px) {
     #main-header {
-        height: 70px;
-        line-height: 65px;
+        min-height: 80px;
+    }
+    
+    #menu ul li a {
+        font-size: 13px;
+        padding: 6px 10px;
     }
 }
 
@@ -242,11 +262,17 @@ body {
 /* Media Queries (Extraídas en las imágenes) */
 
 @media (max-width: 999px) {
+    #main-header {
+        min-height: auto;
+        padding: 15px 0;
+    }
+
     #logo {
-        width: 90%;
+        width: 100%;
         float: none;
-        margin: 0px auto;
+        margin: 0;
         text-align: center;
+        padding: 10px 0;
     }
 
     #logo h1 {
@@ -255,9 +281,24 @@ body {
     }
 
     #menu {
-        float: none;
-        margin: 0px auto;
         width: 100%;
+        float: none;
+        margin: 10px 0 0 0;
+        justify-content: center;
+    }
+
+    #menu ul {
+        justify-content: center;
+        width: 100%;
+    }
+
+    #menu ul li {
+        margin: 5px 5px;
+    }
+
+    #menu ul li a {
+        font-size: 13px;
+        padding: 8px 10px;
     }
 
     /* 2. Estilo para el slider de la marquesina*/
@@ -286,6 +327,15 @@ body {
 @media (max-width: 700px) {
     #logo h1 {
         font-size: 18px;
+    }
+
+    #menu ul li {
+        margin: 4px 3px;
+    }
+
+    #menu ul li a {
+        font-size: 12px;
+        padding: 6px 8px;
     }
 
     #services .container {
@@ -352,14 +402,20 @@ body {
         font-size: 14px;
     }
 
-    #menu {
+    #menu ul {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #menu ul li {
+        margin: 3px 0;
         width: 100%;
         text-align: center;
     }
 
-    #menu ul li {
-        margin-left: 4%;
-        margin-right: 4%;
+    #menu ul li a {
+        width: 100%;
+        font-size: 13px;
     }
 
     /* 4. Texto de marquesina con tamaño 377*/
@@ -393,9 +449,9 @@ body {
         line-height: 1.2;
     }
 
-    #menu ul li {
-        float: none;
-        margin: 5px 0;
+    #menu ul li a {
+        font-size: 12px;
+        padding: 5px 8px;
     }
 
     #slider {
@@ -407,8 +463,8 @@ body {
         margin-top: 30px;
     }
 }
-/
-*Sección de Recursos Admin*/
+
+/* Sección de Recursos Admin */
 #recursos-admin {
     padding-top: 20px;
     padding-bottom: 40px;
